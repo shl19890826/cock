@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:jaxrs-client="http://cxf.apache.org/jaxrs-client"
+	xmlns:aop="http://www.springframework.org/schema/aop"  
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:util="http://www.springframework.org/schema/util" 
+    xsi:schemaLocation="  
+    http://www.springframework.org/schema/context  
+    http://www.springframework.org/schema/context/spring-context.xsd  
+    http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/tx  
+    http://www.springframework.org/schema/tx/spring-tx.xsd  
+    http://cxf.apache.org/jaxws
+    http://cxf.apache.org/schemas/jaxws.xsd
+    http://cxf.apache.org/jaxrs
+    http://cxf.apache.org/schemas/jaxrs.xsd
+    http://cxf.apache.org/jaxrs-client
+    http://cxf.apache.org/schemas/jaxrs-client.xsd
+    http://www.springframework.org/schema/aop  
+    http://www.springframework.org/schema/aop/spring-aop.xsd  
+    http://www.springframework.org/schema/util  
+    http://www.springframework.org/schema/util/spring-util.xsd">  
+  	 
+    <!-- 自动扫描web包 ,将带有注解的类 纳入spring容器管理 -->  
+    <context:component-scan base-package="com.cock.query"></context:component-scan>  
+    
+    <!-- /////////////////////////////////////服务发布区 BEGIN ///////////////////////////// -->
+    <!-- 用id不能和服务名一致，否则报no resource classes found -->
+    <!-- 用beanNames There is an endpoint already running on /rest/simonBornService  还没找到原因 -->
+    <jaxrs:server id="personInfoService" 
+    			  address="/rest/personService">
+    	<jaxrs:serviceBeans> 
+ 			<ref bean="personService"/> 
+        </jaxrs:serviceBeans> 
+        <!--对象转换-->  
+        <jaxrs:providers>  
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/>  
+        </jaxrs:providers>
+    </jaxrs:server>
+    
+    <!-- <bean id="personService" class="com.cock.query.PersonServiceImpl"></bean> -->
+    <!-- /////////////////////////////////////服务发布区  END  ///////////////////////////// -->
+    
+</beans>  
